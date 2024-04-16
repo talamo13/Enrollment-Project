@@ -8,6 +8,7 @@ from Option import Option
 from menu_definitions import menu_main, add_select, list_select, select_select, delete_select, update_select
 from Department import Department
 from Course import Course
+from Section import Section
 
 def menu_loop(menu: Menu):
     """Little helper routine to just keep cycling in a menu until the user signals that they
@@ -39,6 +40,9 @@ def select_department() -> Department:
 
 def select_course() -> Course:
     return select_general(Course)
+
+def select_section() -> Section:
+    return select_general(Section)
 
 def add_department():
     """
@@ -103,7 +107,40 @@ def add_course():
                 print(Utilities.print_exception(e))
 
 def add_section():
-    return 0
+    """
+    Create a new Section instance within a Course
+    """
+    success: bool = False
+    course = select_course()
+    print(course)
+    while not success:
+        new_section= Section(
+            sectionNumber = int(input('Section Number --> ')),
+            semester = input('Semester --> '), 
+            sectionYear = int(input('Year --> ')),
+            building = input('Building --> '),
+            room = int(input('Room --> ')),
+            schedule = input('Schedule --> '),
+            startTime = prompt_for_date('Date and Time For Section'),
+            instructor = input('Instructor --> '),
+            course = course
+        )
+        print('Created a new section instance!')
+        violated_constraints = unique_general(new_section)
+        if len(violated_constraints) > 0:
+            for violated_constraint in violated_constraints:
+                print('Your input values violated constraint: ', violated_constraint)
+            print('try again')
+        else:
+            try:
+                new_section.save()
+                course.sections.append(new_section)
+                course.save()
+                success = True
+                print('Successfully added a new section!')
+            except Exception as e:
+                print('-- Errors adding new section! --')
+                print(Utilities.print_exception(e))
 
 def list_department():
     """
@@ -120,6 +157,14 @@ def list_course():
     course: Course
     course = select_course()
     print(course)
+
+def list_section():
+    """
+    Prints an instance of a section
+    """
+    section: Section
+    section = select_section()
+    print(section)
 
 if __name__ == '__main__':
     print('Starting in main.')
