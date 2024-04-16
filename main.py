@@ -166,6 +166,70 @@ def list_section():
     section = select_section()
     print(section)
 
+def delete_department():
+    """
+    Delete an existing department from the database.
+    :return: None
+    """
+    department = select_department()  # prompt the user for a department to delete
+    courses = department.courses
+    for course in courses:
+        """
+        Checks to see if there are courses under this department and if there are
+        delete the courses before deleting the department
+        """
+        print('-- WARNING: The following course is in the department! --')
+        print('-- Must delete all courses in a department before you can delete the department')
+        print(course)
+        print('Would you like to delete this course ?\n1 - Yes\n0 - No')
+        course_continue = int(input('--> '))
+        if course_continue == 1:
+            sections = course.sections
+            for section in sections:
+                """
+                Checks to see if there are sections in each of the courses, if there are then
+                delete the sections from the course
+                """
+                print('-- WARNING: The following section is in the course! --')
+                print('-- Must delete all sections in a course before you can delete the course')
+                print(section)
+                print('Would you like to delete this section ?\n1 - Yes\n0 - No')
+                section_continue = int(input('--> '))
+                if section_continue == 1:
+                    section.delete()
+                    print('-- Successfully deleted section --')
+                else: return
+            course.delete()
+            print('-- Successfully deleted course --')
+        else: return
+    # delete the department once it is emptied of its courses
+    department.delete()
+    print('-- Successfully deleted department --')
+
+def delete_course():
+    """
+    Delete an existing course from a database
+    :return: None
+    """
+    course = select_course()  # prompt the user for a course to delete
+    sections = course.sections
+    for section in sections:
+        """
+        Checks to see if there are sections under this course and if there are
+        delete the sections before deleting the course
+        """
+        print('-- WARNING: The following section is in the course! --')
+        print('-- Must delete all sections in a course before you can delete the course')
+        print(section)
+        print('Would you like to delete this section ?\n1 - Yes\n0 - No')
+        section_continue = int(input('--> '))
+        if section_continue == 1:
+            section.delete()
+            print('-- Successfully deleted section --')
+        else: return
+    # delete the course once it is emptied of its courses
+    course.delete()
+
 if __name__ == '__main__':
     print('Starting in main.')
     monitoring.register(CommandLogger())
