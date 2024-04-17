@@ -9,6 +9,10 @@ from menu_definitions import menu_main, add_select, list_select, select_select, 
 from Department import Department
 from Course import Course
 from Section import Section
+from Student import Student
+from Enrollment import Enrollment
+from Major import Major
+from StudentMajor import StudentMajor
 
 def menu_loop(menu: Menu):
     """Little helper routine to just keep cycling in a menu until the user signals that they
@@ -43,6 +47,15 @@ def select_course() -> Course:
 
 def select_section() -> Section:
     return select_general(Section)
+
+def select_student() -> Student:
+    return select_general(Student)
+
+def select_enrollment() -> Enrollment:
+    return select_general(Enrollment)
+
+def select_major() -> Major:
+    return select_general(Major)
 
 def add_department():
     """
@@ -142,6 +155,84 @@ def add_section():
                 print('-- Errors adding new section! --')
                 print(Utilities.print_exception(e))
 
+def add_student():
+    """
+    Create a new Student instance
+    """
+    success: bool = False
+    while not success:
+        new_student = Student(
+            firstName = input('First name --> '), 
+            lastName = input('Last name --> '),
+            email = input('Email --> ')
+        )
+        print('Created a new student instance!')
+        violated_constraints = unique_general(new_student)
+        if len(violated_constraints) > 0:
+            for violated_constraint in violated_constraints:
+                print('Your input values violated constraint: ', violated_constraint)
+            print('try again')
+        else:
+            try:
+                new_student.save()
+                success = True
+                print('Successfully added a new section!')
+            except Exception as e:
+                print('-- Errors adding new section! --')
+                print(Utilities.print_exception(e))
+
+def add_enrollment():
+    """
+    Create a new Enrollment instance
+    """
+    success: bool = False
+    student = select_student()
+    section = select_section()
+    while not success:
+        new_enrollment = Enrollment(
+            student = student,
+            section = section
+        )
+        print('Created a new enrollment instance!')
+        violated_constraints = unique_general(new_enrollment)
+        if len(violated_constraints) > 0:
+            for violated_constraint in violated_constraints:
+                print('Your input values violated constraint: ', violated_constraint)
+            print('try again')
+        else:
+            try:
+                new_enrollment.save()
+                success = True
+                print('Successfully added a new enrollment!')
+            except Exception as e:
+                print('-- Errors adding new section! --')
+                print(Utilities.print_exception(e))
+
+def add_major():
+    """
+    Create a new Major instance
+    """
+    success: bool = False
+    while not success:
+        new_major = Major(
+            name = input('Major name --> '),
+            description = input('Description --> ')
+        )
+        print('Created a new major instance!')
+        violated_constraints = unique_general(new_major)
+        if len(violated_constraints) > 0:
+            for violated_constraint in violated_constraints:
+                print('Your input values violated constraint: ', violated_constraint)
+            print('try again')
+        else:
+            try:
+                new_major.save()
+                success = True
+                print('Successfully added a new major!')
+            except Exception as e:
+                print('-- Errors adding new section! --')
+                print(Utilities.print_exception(e))
+
 def list_department():
     """
     Prints an instance of a department
@@ -165,6 +256,30 @@ def list_section():
     section: Section
     section = select_section()
     print(section)
+
+def list_student():
+    """
+    Prints an instance of a student
+    """
+    student: Student
+    student = select_student()
+    print(student)
+
+def list_enrollment():
+    """
+    Prints an instance of an enrollment
+    """
+    enrollment: Enrollment
+    enrollment = select_enrollment()
+    print(enrollment)
+
+def list_major():
+    """
+    Prints an instance of a major
+    """
+    major: Major
+    major = select_major()
+    print(major)
 
 def delete_department():
     """
