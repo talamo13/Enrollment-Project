@@ -12,12 +12,13 @@ class Course(Document):
     description = StringField(db_field='description', min_length=0, max_length=100, required=True)
     units = IntField(db_field='units', min_value=0, required=True)
     department = ReferenceField(Department, required=True, reverse_delete_rule=mongoengine.DENY)
+    departmentAbbreviation = StringField(db_field='department_abbreviation', required=True)
     sections = ListField(ReferenceField('Section'))
 
     meta = {'collection': 'courses',
             'indexes': [
-                {'unique': True, 'fields': ['courseNumber'], 'name': 'courses_pk'},
-                {'unique': True, 'fields': ['courseName'], 'name': 'courses_uk_01'}
+                {'unique': True, 'fields': ['departmentAbbreviation','courseNumber'], 'name': 'courses_uk_01'},
+                {'unique': True, 'fields': ['departmentAbbreviation','courseName'], 'name': 'courses_uk_02'}
             ]}
 
     def __str__(self):

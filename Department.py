@@ -6,7 +6,7 @@ class Department(Document):
     """
     # are there min and max lengths already defined in the moon model?? if so then change the max and min values
     name = StringField(db_field='name', max_length=80, min_length=5, required=True)
-    abbreviation = StringField(db_field='abbreviation', min_length=2)
+    abbreviation = StringField(db_field='abbreviation', min_length=3)
     chairName = StringField(db_field='chair_name', min_length=2, max_length=25, required=True)
     building = StringField(db_field='buidling', min_length=2, max_length=25, required=True)
     office = IntField(db_field='office', min_value=0, required=True)
@@ -15,8 +15,10 @@ class Department(Document):
 
     meta = {'collection': 'departments',
             'indexes': [
-                {'unique': True, 'fields': ['name'], 'name': 'departments_pk'},
-                {'unique': True, 'fields': ['abbreviation'], 'name': 'departments_uk_01'}
+                {'unique': True, 'fields': ['name'], 'name': 'departments_uk_01'},
+                {'unique': True, 'fields': ['abbreviation'], 'name': 'departments_uk_02'},
+                {'unique': True, 'fields': ['chairName'], 'name': 'departments_uk_03'}, 
+                {'unique': True, 'fields': ['building', 'office'], 'name': 'departments_uk_04'}
             ]}
 
     def __str__(self):

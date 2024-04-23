@@ -11,7 +11,8 @@ class Student(Document):
 
     meta = {'collection': 'students',
             'indexes': [
-            {'unique':True, 'fields':['firstName', 'lastName'], 'name': 'students_pk'}
+            {'unique':True, 'fields':['lastName', 'firstName'], 'name': 'students_uk_01'},
+            {'unique':True, 'fields':['email'], 'name': 'students_uk_02'},
             ]}
 
     def __str__(self):

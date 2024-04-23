@@ -15,10 +15,24 @@ class Section(Document):
     startTime = DateTimeField(db_field='start_time', required=True) # This may need to be changed
     instructor = StringField(db_field='instructor', required=True)
     course = ReferenceField(Course, required=True, reverse_delete_rule=mongoengine.DENY)
+    courseNumber = IntField(db_field='course_number', required=True)
+    departmentAbbreviation = StringField(db_field='department_abbreviation', required=True)
 
     meta = {'collection': 'sections',
             'indexes': [
-                {'unique': True, 'fields': ['course','sectionNumber'], 'name': 'sections_pk'}
+                {'unique': True,
+                 'fields': ['course','sectionNumber','semester','sectionYear'],
+                 'name': 'sections_uk_01'},
+                {'unique': True,
+                 'fields': ['semester','sectionYear','building','room','schedule','startTime'],
+                 'name': 'sections_uk_02'},
+                {'unique': True,
+                 'fields': ['semester','sectionYear','schedule','startTime','instructor'],
+                 'name': 'sections_uk_03'},
+                # need to add student id ??
+                {'unique': True,
+                 'fields': ['semester','sectionYear','courseNumber','departmentAbbreviation'],
+                 'name': 'sections_uk_04'}
             ]}
 
     def __str__(self):

@@ -97,6 +97,7 @@ def add_course():
     while not success:
         new_course = Course(
             department = department,
+            departmentAbbreviation = department.abbreviation,
             courseName = input('Course Name --> '),
             courseNumber = int(input('Course Number --> ')),
             description = input('Description --> '),
@@ -136,7 +137,9 @@ def add_section():
             schedule = input('Schedule --> '),
             startTime = prompt_for_date('Date and Time For Section'),
             instructor = input('Instructor --> '),
-            course = course
+            course = course,
+            courseNumber = course.courseNumber,
+            departmentAbbreviation = course.department.abbreviation
         )
         print('Created a new section instance!')
         violated_constraints = unique_general(new_section)

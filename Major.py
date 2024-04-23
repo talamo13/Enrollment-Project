@@ -9,7 +9,7 @@ class Major(Document):
 
     meta = {'collection': 'majors',
             'indexes': [
-                {'unique': True, 'fields': ['name'], 'name': 'majors_pk_01'}
+                {'unique': True, 'fields': ['name'], 'name': 'majors_uk_01'}
             ]}
 
     def __str__(self):
