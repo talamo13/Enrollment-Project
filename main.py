@@ -57,6 +57,9 @@ def select_enrollment() -> Enrollment:
 def select_major() -> Major:
     return select_general(Major)
 
+def select_student_major() -> StudentMajor:
+    return select_general(StudentMajor)
+
 def choose_building():
     """
     Prompts the user to select from a list of buildings on campus.
@@ -359,6 +362,14 @@ def list_major():
     major: Major
     major = select_major()
     print(major)
+
+def list_student_major():
+    """
+    Prints an instance of student major
+    """
+    student_major: StudentMajor
+    student_major = select_student_major()
+    print (student_major)
 
 def delete_department():
     """

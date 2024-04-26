@@ -18,7 +18,8 @@ class StudentMajor(Document):
     def __str__(self):
         result = f'''Student Major:
                     {self.student.firstName} {self.student.lastName}
-                    {self.major.name}'''
+                    {self.major.name}
+                    {self.declarationDate}'''
         return result
     
         
