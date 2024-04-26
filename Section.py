@@ -10,7 +10,7 @@ class Section(Document):
     semester = StringField(db_field='semester', required=True)
     sectionYear = IntField(db_field='section_year', required=True)
     building = StringField(db_field='building', required=True)
-    room = IntField(db_field='room', min_value=0, required=True)
+    room = IntField(db_field='room', min_value=1, max_value=999, required=True)
     schedule = StringField(db_field='schedule', required=True) # Maybe change this to enumeration? 
     startTime = DateTimeField(db_field='start_time', required=True) # This may need to be changed
     instructor = StringField(db_field='instructor', required=True)

@@ -5,12 +5,12 @@ class Department(Document):
     Create documentation for this class here
     """
     # are there min and max lengths already defined in the moon model?? if so then change the max and min values
-    name = StringField(db_field='name', max_length=80, min_length=5, required=True)
-    abbreviation = StringField(db_field='abbreviation', min_length=3)
-    chairName = StringField(db_field='chair_name', min_length=2, max_length=25, required=True)
-    building = StringField(db_field='buidling', min_length=2, max_length=25, required=True)
-    office = IntField(db_field='office', min_value=0, required=True)
-    description = StringField(db_field='description', min_length=10, max_length=100, required=True)
+    name = StringField(db_field='name', required=True)
+    abbreviation = StringField(db_field='abbreviation', max_length=6)
+    chairName = StringField(db_field='chair_name', max_length=60, required=True)
+    building = StringField(db_field='building', required=True)
+    office = IntField(db_field='office', required=True)
+    description = StringField(db_field='description', max_length=80, required=True)
     courses = ListField(ReferenceField('Course'))
 
     meta = {'collection': 'departments',

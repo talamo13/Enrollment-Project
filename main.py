@@ -57,6 +57,16 @@ def select_enrollment() -> Enrollment:
 def select_major() -> Major:
     return select_general(Major)
 
+def choose_building():
+    """
+    Prompts the user to select from a list of buildings on campus.
+    This enforces the business rule of only certain building being allowed to be assigned to a department.
+    """
+    buildings = {1:'ANAC',2:'CDC',3:'DC',4:'ECS',5:'EN2',6:'EN3',7:'EN4',8:'EN5',9:'ET',10:'HSCI',11:'NUR',12:'VEC'};
+    print("Select A Building:\n1 - ANAC\n2 - CDC\n3 - DC\n4 - ECS\n5 - EN2\n6 - EN3\n7 - EN4\n8 - EN5\n9 - ET\n10 - HSCI\n11 - NUR\n12 - VEC")
+    choice = int(input('--> ')) 
+    return buildings[choice]
+
 def add_department():
     """
     Create a new Department instance
@@ -68,7 +78,7 @@ def add_department():
             name = input('Name --> '),
             abbreviation = input('Abbreviation --> '),
             chairName = input('Chair Name --> '),
-            building = input('Building --> '),
+            building = choose_building(),
             office = int(input('Office --> ')),
             description = input('Description --> ')
         )
