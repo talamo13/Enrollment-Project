@@ -21,6 +21,17 @@ class Course(Document):
                 {'unique': True, 'fields': ['departmentAbbreviation','courseName'], 'name': 'courses_uk_02'}
             ]}
 
+    def __init__(self, number, name, description, units, department, abbr, *args, **values):
+        super().__init__(*args, **values)
+        if self.sections is None:
+            self.sections = []
+        self.courseNumber = number
+        self.courseName = name
+        self.description = description
+        self.units = units
+        self.department = department
+        self.departmentAbbreviation = abbr
+
     def __str__(self):
         """
         Returns a string representation of a Course instance

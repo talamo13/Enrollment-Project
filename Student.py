@@ -15,6 +15,13 @@ class Student(Document):
             {'unique':True, 'fields':['email'], 'name': 'students_uk_02'},
             ]}
 
+    def __init__(self, firstname, lastname, email, *args, **values):
+        super().__init__(*args, **values)
+        self.firstName = firstname
+        self.lastName = lastname
+        self.email = email
+
+
     def __str__(self):
         result = f'''Student:
                     {self.firstName} {self.lastName}

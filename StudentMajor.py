@@ -15,6 +15,13 @@ class StudentMajor(Document):
                 {'unique': True, 'fields': ['student','declarationDate'], 'name': 'student_majors_pk'}
             ]}
 
+    def __init__(self, student, major, date, *args, **values):
+        super().__init__(*args, **values)
+        self.student = student
+        self.major = major
+        self.declarationDate = date
+
+
     def __str__(self):
         result = f'''Student Major:
                     {self.student.firstName} {self.student.lastName}

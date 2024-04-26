@@ -36,6 +36,22 @@ class Section(Document):
                  'name': 'sections_uk_04'}
             ]}
 
+    def __init__(self, number, semester, year, building, room, schedule, startTime, instructor,
+                 course, *args, **values):
+        super().__init__(*args, **values)
+        self. sectionNumber = number,
+        self.semester = semester
+        self.sectionYear = year
+        self.building = building
+        self.room = room
+        self.schedule = schedule
+        self.startTime = startTime
+        self.instructor = instructor
+        self.course = course
+        self.courseNumber = course.courseNumber
+        self.departmentAbbreviation = course.departmentAbbreviation
+
+
     def __str__(self):
         result = f'''Section:
                     Number - {self.sectionNumber}

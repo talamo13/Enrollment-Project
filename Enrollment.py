@@ -18,6 +18,11 @@ class Enrollment(Document):
                 {'unique': True, 'fields': ['student','section'], 'name': 'enrollments_pk'}
             ]}
 
+    def __init__(self, student, section, *args, **values):
+        super().__init__(*args, **values)
+        self.student = student
+        self.section = section
+
     def __str__(self):
         result = f'''Enrollment:
                      {self.student.firstName} {self.student.lastName}
