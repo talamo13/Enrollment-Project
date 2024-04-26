@@ -57,6 +57,57 @@ def select_enrollment() -> Enrollment:
 def select_major() -> Major:
     return select_general(Major)
 
+def select_student_major() -> StudentMajor:
+    return select_general(StudentMajor)
+
+def choose_building():
+    """
+    Prompts the user to select from a list of buildings on campus.
+    This enforces the business rule of only certain building being allowed to be assigned to a department.
+    """
+    choice = 0
+    buildings = {1:'ANAC',2:'CDC',3:'DC',4:'ECS',5:'EN2',6:'EN3',7:'EN4',8:'EN5',9:'ET',10:'HSCI',11:'NUR',12:'VEC'};
+    while choice not in {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}:
+        print("Select A Building:\n1 - ANAC\n2 - CDC\n3 - DC\n4 - ECS\n5 - EN2\n6 - EN3\n7 - EN4\n8 - EN5\n9 - ET\n10 - HSCI\n11 - NUR\n12 - VEC")
+        choice = int(input('--> ')) 
+    return buildings[choice]
+
+def choose_schedule():
+    """
+    Prompts the user to select from a list of possible schedule choices. 
+    This enforces the business rule of their only being specific options for schedules
+    """
+    choice = 0
+    schedules = {1:'MW',2:'TuTh',3:'MWF',4:'F',5:'S'}
+    while choice not in {1, 2, 3, 4, 5}:
+        print("Select A Schedule:\n1 - MW\n2 - TuTh\n3 - MWF\n4 - F\n5 - S")
+        choice = int(input('--> '))
+    return schedules[choice]
+
+def choose_semester():
+    """
+    Prompts the user to select from a list of possible semesters.
+    This enforces the business rule of there only being certain semesters that the user can choose from
+    """
+    choice = 0
+    semesters = {1:'Fall',2:'Spring',3:'Summer I',4:'Summer II',5:'Summer III',6:'Winter'}
+    while choice not in {1, 2, 3, 4, 5, 6}:
+        print("Select A Semester:\n1 - Fall\n2 - Spring\n3 - Summer I\n4 - Summer II\n5 - Summer III\n6 - Winter")
+        choice = int(input('--> '))
+    return semesters[choice]
+
+def choose_grade():
+    """
+    Prompts the user to select their minimum satisfactory grade from a list of valid values.
+    This enforces the business rule that the minimum satisfactory grade is a list of certain values.
+    """
+    choice = 0
+    grades = {1:'A',2:'B',3:'C'}
+    while choice not in {1,2,3}:
+        print('Select A Minimum Satisfactory Grade:\n1 - A\n2 - B\n3 - C')
+        choice = int(input('--> '))
+    return grades[choice]
+
 def add_department():
     """
     Create a new Department instance
@@ -68,7 +119,7 @@ def add_department():
             name = input('Name --> '),
             abbreviation = input('Abbreviation --> '),
             chairName = input('Chair Name --> '),
-            building = input('Building --> '),
+            building = choose_building(),
             office = int(input('Office --> ')),
             description = input('Description --> ')
         )
@@ -129,14 +180,14 @@ def add_section():
     print(course)
     while not success:
         new_section= Section(
-            sectionNumber = int(input('Section Number --> ')),
-            semester = input('Semester --> '), 
             sectionYear = int(input('Year --> ')),
-            building = input('Building --> '),
-            room = int(input('Room --> ')),
-            schedule = input('Schedule --> '),
-            startTime = prompt_for_date('Date and Time For Section'),
+            semester = choose_semester(), 
+            sectionNumber = int(input('Section Number --> ')),
             instructor = input('Instructor --> '),
+            building = choose_building(),
+            room = int(input('Room --> ')),
+            schedule = choose_schedule(),
+            startTime = prompt_for_date('Start Time:'),
             course = course,
             courseNumber = course.courseNumber,
             departmentAbbreviation = course.department.abbreviation
@@ -216,8 +267,10 @@ def add_major():
     Create a new Major instance
     """
     success: bool = False
+    department = select_department()
     while not success:
         new_major = Major(
+            department = department,
             name = input('Major name --> '),
             description = input('Description --> ')
         )
@@ -230,10 +283,40 @@ def add_major():
         else:
             try:
                 new_major.save()
+                department.majors.append(new_major)
+                department.save()
                 success = True
                 print('Successfully added a new major!')
             except Exception as e:
                 print('-- Errors adding new section! --')
+                print(Utilities.print_exception(e))
+
+def add_student_major():
+    """
+    Create a new StudentMajor instance
+    """
+    success: bool = False
+    student = select_student()
+    major = select_major()
+    while not success:
+        new_student_major = StudentMajor(
+            student = student, 
+            major = major,
+            declarationDate = prompt_for_date('Declaration Date:') 
+        )
+        print('Created a new major instance!')
+        violated_constraints = unique_general(new_student_major)
+        if len(violated_constraints) > 0:
+            for violated_constraint in violated_constraints:
+                print('Your input values violated constraint: ', violated_constraint)
+            print('try again')
+        else:
+            try:
+                new_student_major.save()
+                success = True
+                print('Successfully added a new student major!')
+            except Exception as e:
+                print('-- Errors adding new student major! --')
                 print(Utilities.print_exception(e))
 
 def list_department():
@@ -283,6 +366,14 @@ def list_major():
     major: Major
     major = select_major()
     print(major)
+
+def list_student_major():
+    """
+    Prints an instance of student major
+    """
+    student_major: StudentMajor
+    student_major = select_student_major()
+    print (student_major)
 
 def delete_department():
     """

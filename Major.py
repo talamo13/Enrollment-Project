@@ -1,6 +1,7 @@
-from mongoengine import *
 import mongoengine
+from mongoengine import *
 from Department import Department
+
 class Major(Document):
     """
     Documentation for this class will go here

@@ -18,9 +18,7 @@ class Utilities:
     def startup():
         print("Connecting To Database ...")
         while True:
-            username = input('Username --> ')
-            password = input('Password --> ')
-            cluster = f"mongodb+srv://{username}:{password}@atlas-1.uli8tqp.mongodb.net/?retryWrites=true&w=majority"
+            cluster = "mongodb+srv://talamo:indica@atlas-1.uli8tqp.mongodb.net/?retryWrites=true&w=majority"
             database_name = "Enrollment-Project"
             client = connect(db=database_name, host=cluster)
             try:

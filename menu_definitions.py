@@ -19,12 +19,13 @@ menu_main = Menu('main', 'Please select one of the following options:', [
 
 # options for adding a new instance
 add_select = Menu('add select', 'Which type of object do you want to add?:', [
-    Option("Departmet", "add_department()"),
+    Option("Department", "add_department()"),
     Option("Course", "add_course()"),
     Option("Section", "add_section()"),
     Option("Student", "add_student()"),
     Option("Enrollment", "add_enrollment()"),
     Option("Major", "add_major()"),
+    Option("Student Major", "add_student_major()"),
     Option("Exit", "pass")
 ])
 
@@ -44,6 +45,7 @@ list_select = Menu('list select', 'Which type of object do you want to list?:', 
     Option("Student", "list_student()"),
     Option("Enrollment", "list_enrollment()"),
     Option("Major", "list_major()"),
+    Option("Student Major", "list_student_major()"),
     Option("Exit", "pass")
 ])
 
@@ -55,6 +57,7 @@ select_select = Menu('select select', 'Which type of object do you want to selec
     Option("Student", "print(select_student())"),
     Option("Enrollment", "print(select_enrollment())"),
     Option("Major", "print(select_major())"),
+    Option("Student Major", "print(select_student_major())"),
     Option("Exit", "pass")
 ])
 
