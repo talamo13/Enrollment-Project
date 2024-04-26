@@ -25,6 +25,7 @@ add_select = Menu('add select', 'Which type of object do you want to add?:', [
     Option("Student", "add_student()"),
     Option("Enrollment", "add_enrollment()"),
     Option("Major", "add_major()"),
+    Option("Student Major", "add_student_major()"),
     Option("Exit", "pass")
 ])
 

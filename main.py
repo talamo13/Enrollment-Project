@@ -177,14 +177,14 @@ def add_section():
     print(course)
     while not success:
         new_section= Section(
-            sectionNumber = int(input('Section Number --> ')),
-            semester = choose_semester(), 
             sectionYear = int(input('Year --> ')),
+            semester = choose_semester(), 
+            sectionNumber = int(input('Section Number --> ')),
+            instructor = input('Instructor --> '),
             building = choose_building(),
             room = int(input('Room --> ')),
             schedule = choose_schedule(),
-            startTime = prompt_for_date('Date and Time For Section'),
-            instructor = input('Instructor --> '),
+            startTime = prompt_for_date('Start Time:'),
             course = course,
             courseNumber = course.courseNumber,
             departmentAbbreviation = course.department.abbreviation
@@ -282,6 +282,34 @@ def add_major():
                 print('Successfully added a new major!')
             except Exception as e:
                 print('-- Errors adding new section! --')
+                print(Utilities.print_exception(e))
+
+def add_student_major():
+    """
+    Create a new StudentMajor instance
+    """
+    success: bool = False
+    student = select_student()
+    major = select_major()
+    while not success:
+        new_student_major = StudentMajor(
+            student = student, 
+            major = major,
+            declarationDate = prompt_for_date('Declaration Date:') 
+        )
+        print('Created a new major instance!')
+        violated_constraints = unique_general(new_student_major)
+        if len(violated_constraints) > 0:
+            for violated_constraint in violated_constraints:
+                print('Your input values violated constraint: ', violated_constraint)
+            print('try again')
+        else:
+            try:
+                new_student_major.save()
+                success = True
+                print('Successfully added a new student major!')
+            except Exception as e:
+                print('-- Errors adding new student major! --')
                 print(Utilities.print_exception(e))
 
 def list_department():
