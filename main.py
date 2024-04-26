@@ -62,10 +62,48 @@ def choose_building():
     Prompts the user to select from a list of buildings on campus.
     This enforces the business rule of only certain building being allowed to be assigned to a department.
     """
+    choice = 0
     buildings = {1:'ANAC',2:'CDC',3:'DC',4:'ECS',5:'EN2',6:'EN3',7:'EN4',8:'EN5',9:'ET',10:'HSCI',11:'NUR',12:'VEC'};
-    print("Select A Building:\n1 - ANAC\n2 - CDC\n3 - DC\n4 - ECS\n5 - EN2\n6 - EN3\n7 - EN4\n8 - EN5\n9 - ET\n10 - HSCI\n11 - NUR\n12 - VEC")
-    choice = int(input('--> ')) 
+    while choice not in {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}:
+        print("Select A Building:\n1 - ANAC\n2 - CDC\n3 - DC\n4 - ECS\n5 - EN2\n6 - EN3\n7 - EN4\n8 - EN5\n9 - ET\n10 - HSCI\n11 - NUR\n12 - VEC")
+        choice = int(input('--> ')) 
     return buildings[choice]
+
+def choose_schedule():
+    """
+    Prompts the user to select from a list of possible schedule choices. 
+    This enforces the business rule of their only being specific options for schedules
+    """
+    choice = 0
+    schedules = {1:'MW',2:'TuTh',3:'MWF',4:'F',5:'S'}
+    while choice not in {1, 2, 3, 4, 5}:
+        print("Select A Schedule:\n1 - MW\n2 - TuTh\n3 - MWF\n4 - F\n5 - S")
+        choice = int(input('--> '))
+    return schedules[choice]
+
+def choose_semester():
+    """
+    Prompts the user to select from a list of possible semesters.
+    This enforces the business rule of there only being certain semesters that the user can choose from
+    """
+    choice = 0
+    semesters = {1:'Fall',2:'Spring',3:'Summer I',4:'Summer II',5:'Summer III',6:'Winter'}
+    while choice not in {1, 2, 3, 4, 5, 6}:
+        print("Select A Semester:\n1 - Fall\n2 - Spring\n3 - Summer I\n4 - Summer II\n5 - Summer III\n6 - Winter")
+        choice = int(input('--> '))
+    return semesters[choice]
+
+def choose_grade():
+    """
+    Prompts the user to select their minimum satisfactory grade from a list of valid values.
+    This enforces the business rule that the minimum satisfactory grade is a list of certain values.
+    """
+    choice = 0
+    grades = {1:'A',2:'B',3:'C'}
+    while choice not in {1,2,3}:
+        print('Select A Minimum Satisfactory Grade:\n1 - A\n2 - B\n3 - C')
+        choice = int(input('--> '))
+    return grades[choice]
 
 def add_department():
     """
@@ -140,11 +178,11 @@ def add_section():
     while not success:
         new_section= Section(
             sectionNumber = int(input('Section Number --> ')),
-            semester = input('Semester --> '), 
+            semester = choose_semester(), 
             sectionYear = int(input('Year --> ')),
-            building = input('Building --> '),
+            building = choose_building(),
             room = int(input('Room --> ')),
-            schedule = input('Schedule --> '),
+            schedule = choose_schedule(),
             startTime = prompt_for_date('Date and Time For Section'),
             instructor = input('Instructor --> '),
             course = course,

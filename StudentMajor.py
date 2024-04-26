@@ -1,6 +1,7 @@
 from mongoengine import *
 from Student import Student
 from Major import Major
+import datetime
 
 class StudentMajor(Document):
     """
@@ -20,3 +21,13 @@ class StudentMajor(Document):
                     {self.student.firstName} {self.student.lastName}
                     {self.major.name}'''
         return result
+    
+    def clean(self):
+        """
+        clean() is called within save(), so this will automatically be called whenever trying to save an instance of Section
+        Using this function to enforce the business rule that declarationDate <= today
+        """
+        today = datetime.date.today()
+        if not (self.declarationDate <= today):
+            raise ValidationError('Declaration date must not be in the future!')
+        

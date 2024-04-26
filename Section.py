@@ -1,5 +1,6 @@
 import mongoengine
 from mongoengine import*
+from datetime import time
 from Course import Course
 
 class Section(Document):
@@ -11,8 +12,8 @@ class Section(Document):
     sectionYear = IntField(db_field='section_year', required=True)
     building = StringField(db_field='building', required=True)
     room = IntField(db_field='room', min_value=1, max_value=999, required=True)
-    schedule = StringField(db_field='schedule', required=True) # Maybe change this to enumeration? 
-    startTime = DateTimeField(db_field='start_time', required=True) # This may need to be changed
+    schedule = StringField(db_field='schedule', required=True)  
+    startTime = DateTimeField(db_field='start_time', required=True)
     instructor = StringField(db_field='instructor', required=True)
     course = ReferenceField(Course, required=True, reverse_delete_rule=mongoengine.DENY)
     courseNumber = IntField(db_field='course_number', required=True)
@@ -43,3 +44,14 @@ class Section(Document):
                     {self.schedule} {self.startTime}
                     {self.course.courseName} - {self.instructor}'''
         return result
+    
+    def clean(self):
+        """
+        clean() is called within save(), so this will automatically be called whenever trying to save an instance of Section
+        Using this function to enforce the business rule that 8:00am <= startTime >= 7:30PM
+        """
+        min = time(8, 0)
+        max = time(19,30)
+        section_start_time = self.startTime.time()
+        if not (min <= section_start_time <= max):
+            raise ValidationError('Start time must be between 8:00am and 7:30pm !')
