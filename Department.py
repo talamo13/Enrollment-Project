@@ -21,6 +21,17 @@ class Department(Document):
                 {'unique': True, 'fields': ['building', 'office'], 'name': 'departments_uk_04'}
             ]}
 
+    def __init__(self, name, abbr, chair, building, office, description, *args, **values):
+        super().__init__(*args, **values)
+        if self.courses is None:
+            self.courses = []
+        self.name = name
+        self.abbreviation = abbr
+        self.chairName = chair
+        self.building = building
+        self.office = office
+        self.description = description
+
     def __str__(self):
         """
         Returns a string representation of a Department instance
@@ -36,9 +47,9 @@ class Department(Document):
         Add a course to the list of courses offered by the department 
         """
         if self.courses:
-            for course in courses:
+            for course in self.courses:
                 if new_course == course:
                     raise ValueError('This course already exists!')
             self.courses.append(new_course)
         else:
-            self.courses = new_course
+            self.courses = [new_course]
