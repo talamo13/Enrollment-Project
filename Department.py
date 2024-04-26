@@ -12,6 +12,7 @@ class Department(Document):
     office = IntField(db_field='office', required=True)
     description = StringField(db_field='description', max_length=80, required=True)
     courses = ListField(ReferenceField('Course'))
+    majors = ListField(ReferenceField('Major'))
 
     meta = {'collection': 'departments',
             'indexes': [
@@ -25,10 +26,18 @@ class Department(Document):
         """
         Returns a string representation of a Department instance
         """
+        major_names = []
+        for major in self.majors:
+            major_names.append(major.name)
+        course_names = []
+        for course in self.courses:
+            course_names.append(course.courseName)
         result = f'''\nDepartment:
                     {self.name} - {self.abbreviation}
                     Chair - {self.chairName}, {self.building} {self.office}
-                    {self.description}\n'''
+                    {self.description}\n
+                    Majors: {major_names}\n
+                    Courses: {course_names}'''
         return result
 
     def add_course(self, new_course):

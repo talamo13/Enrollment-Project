@@ -1,4 +1,6 @@
+import mongoengine
 from mongoengine import *
+from Department import Department
 
 class Major(Document):
     """
@@ -6,6 +8,7 @@ class Major(Document):
     """
     name = StringField(db_field='name', required='True')
     description = StringField(db_field='description', required=True)
+    department = ReferenceField(Department, required=True, reverse_delete_rule=mongoengine.DENY)
 
     meta = {'collection': 'majors',
             'indexes': [

@@ -267,8 +267,10 @@ def add_major():
     Create a new Major instance
     """
     success: bool = False
+    department = select_department()
     while not success:
         new_major = Major(
+            department = department,
             name = input('Major name --> '),
             description = input('Description --> ')
         )
@@ -281,6 +283,8 @@ def add_major():
         else:
             try:
                 new_major.save()
+                department.majors.append(new_major)
+                department.save()
                 success = True
                 print('Successfully added a new major!')
             except Exception as e:
