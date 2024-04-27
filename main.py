@@ -12,6 +12,7 @@ from Section import Section
 from Student import Student
 from Enrollment import Enrollment
 from PassFailEnrollment import PassFail
+from LetterGradeEnrollment import LetterGrade
 from Major import Major
 from StudentMajor import StudentMajor
 
@@ -256,6 +257,8 @@ def add_enrollment():
     enrollment_type = choose_enrollment()
     if enrollment_type == 'Pass Fail':
         add_pass_fail(student, section)
+    else:
+        add_letter_grade(student, section)
 
 def add_pass_fail(student, section):
     """
@@ -265,6 +268,32 @@ def add_pass_fail(student, section):
     while not success:
         new_enrollment = PassFail(
             applicationDate = prompt_for_date('Application Date:'),
+            student = student,
+            section = section
+        )
+        print('Created a new enrollment instance!')
+        violated_constraints = unique_general(new_enrollment)
+        if len(violated_constraints) > 0:
+            for violated_constraint in violated_constraints:
+                print('Your input values violated constraint: ', violated_constraint)
+            print('try again')
+        else:
+            try:
+                new_enrollment.save()
+                success = True
+                print('Successfully added a new enrollment!')
+            except Exception as e:
+                print('-- Errors adding new section! --')
+                print(Utilities.print_exception(e))
+
+def add_letter_grade(student, section):
+    """
+    Create a new LetterGrade enrollment instance
+    """
+    success: bool = False 
+    while not success:
+        new_enrollment = LetterGrade(
+            minSatisfactory = choose_grade(),
             student = student,
             section = section
         )
