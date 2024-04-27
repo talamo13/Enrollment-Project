@@ -11,6 +11,7 @@ from Course import Course
 from Section import Section
 from Student import Student
 from Enrollment import Enrollment
+from PassFailEnrollment import PassFail
 from Major import Major
 from StudentMajor import StudentMajor
 
@@ -107,6 +108,17 @@ def choose_grade():
         print('Select A Minimum Satisfactory Grade:\n1 - A\n2 - B\n3 - C')
         choice = int(input('--> '))
     return grades[choice]
+
+def choose_enrollment():
+    """
+    Prompts the user to choose wether the enrollment they are making is of type PassFail or LetterGrade
+    """
+    choice = 0
+    enrollment_types = {1:'Pass Fail',2:'Letter Grade'}
+    while choice not in {1,2,3}:
+        print('Select An Enrollment Type:\n1 - Pass Fail\n2 - Letter Grade')
+        choice = int(input('--> '))
+    return enrollment_types[choice] 
 
 def add_department():
     """
@@ -239,11 +251,20 @@ def add_enrollment():
     """
     Create a new Enrollment instance
     """
-    success: bool = False
     student = select_student()
     section = select_section()
+    enrollment_type = choose_enrollment()
+    if enrollment_type == 'Pass Fail':
+        add_pass_fail(student, section)
+
+def add_pass_fail(student, section):
+    """
+    Create a new PassFail enrollment instance
+    """
+    success: bool = False 
     while not success:
-        new_enrollment = Enrollment(
+        new_enrollment = PassFail(
+            applicationDate = prompt_for_date('Application Date:'),
             student = student,
             section = section
         )

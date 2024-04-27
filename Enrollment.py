@@ -11,9 +11,8 @@ class Enrollment(Document):
     student = ReferenceField(Student, db_field='student', required=True)
     section = ReferenceField(Section, db_field='section', required=True)
     
-    #super type for becoming a super type
-    # allow_inhertitance=True
-    meta = {'collection': 'enrollments',
+    meta = {'allow_inheritance':True,
+            'collection': 'enrollments',
             'indexes': [
                 {'unique': True, 'fields': ['student','section'], 'name': 'enrollments_pk'}
             ]}
