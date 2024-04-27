@@ -17,3 +17,9 @@ class PassFail(Enrollment):
         if not (self.applicationDate <= today):
             raise ValidationError('Application date must not be in the future!')
 
+    def __str__(self):
+        result = f'''Enrollment:
+                     {self.student.firstName} {self.student.lastName}
+                     {self.section.course.courseName} {self.section.course.courseNumber}- {self.section.sectionNumber}
+                     Type - Pass / Fail \n'''
+        return result

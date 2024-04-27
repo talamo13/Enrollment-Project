@@ -17,8 +17,3 @@ class Enrollment(Document):
                 {'unique': True, 'fields': ['student','section'], 'name': 'enrollments_pk'}
             ]}
 
-    def __str__(self):
-        result = f'''Enrollment:
-                     {self.student.firstName} {self.student.lastName}
-                     {self.section.course.courseName} {self.section.course.courseNumber}- {self.section.sectionNumber}\n'''
-        return result
