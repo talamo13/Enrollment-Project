@@ -489,6 +489,25 @@ def delete_course():
     # delete the course once it is emptied of its courses
     course.delete()
 
+def delete_section():
+    """
+    Delete an existing section from the database
+    :returns: None
+    """
+    section = select_section()
+    enrollments = Enrollment.objects(section = section)
+    for enrollment in enrollments:
+        print('-- WARNING: The following enrollment is in this section! --') 
+        print('-- Must delete all enrollments in section before you can delete the course')
+        print(enrollment)
+        print('Would you like to delete the enrollment ?\n1 - Yes\n0 - No')
+        enrollment_continue = int(input('--> '))
+        if enrollment_continue == 1:
+            enrollment.delete()
+            print('Successfully deleted enrollment!')
+        else: return
+    section.delete()
+
 if __name__ == '__main__':
     print('Starting in main.')
     monitoring.register(CommandLogger())
