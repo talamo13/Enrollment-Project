@@ -6,7 +6,6 @@ class Course(Document):
     """
     Create documentation for this class here
     """
-    # are there min and max lengths already defined in the moon model?? if so then change the max and min values
     courseNumber = IntField(db_field='course_number', min_value=100, max_value=699, required=True)
     courseName = StringField(db_field='course_name', required=True)
     description = StringField(db_field='description', required=True)

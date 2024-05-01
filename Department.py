@@ -4,7 +4,6 @@ class Department(Document):
     """
     Create documentation for this class here
     """
-    # are there min and max lengths already defined in the moon model?? if so then change the max and min values
     name = StringField(db_field='name', required=True)
     abbreviation = StringField(db_field='abbreviation', max_length=6)
     chairName = StringField(db_field='chair_name', max_length=60, required=True)

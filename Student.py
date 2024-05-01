@@ -1,6 +1,5 @@
 from mongoengine import *
 
-# need to add deletion functionality to this class via main.py
 class Student(Document):
     """
     Create documentation for this class here
