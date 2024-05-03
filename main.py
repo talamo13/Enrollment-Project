@@ -515,6 +515,8 @@ def delete_section(section):
         if enrollment_continue == 1:
             delete_enrollment(enrollment)
         else: return
+    course = Course.objects(sections = section)
+    course.update(pull__sections=section.id) # delete this section from the Course.sections list
     section.delete() # delete section once all the enrollments have been deleted
 
 def delete_enrollment_main():

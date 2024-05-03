@@ -8,6 +8,8 @@ class Enrollment(Document):
     '''
     student = ReferenceField(Student, db_field='student', required=True)
     section = ReferenceField(Section, db_field='section', required=True)
+#    departmentAbbreviation = StringField(db_field='department_abbreviation', required=True)
+#    courseNumber = IntField(db_field='course_number', required=True)
     
     meta = {'allow_inheritance':True,
             'collection': 'enrollments',
