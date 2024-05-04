@@ -30,7 +30,6 @@ class Section(Document):
                 {'unique': True,
                  'fields': ['semester','sectionYear','schedule','startTime','instructor'],
                  'name': 'sections_uk_03'},
-                # need to add student id ??
                 {'unique': True,
                  'fields': ['semester','sectionYear','courseNumber','departmentAbbreviation'],
                  'name': 'sections_uk_04'}

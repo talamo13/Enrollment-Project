@@ -269,7 +269,11 @@ def add_pass_fail(student, section):
         new_enrollment = PassFail(
             applicationDate = prompt_for_date('Application Date:'),
             student = student,
-            section = section
+            section = section,
+            departmentAbbreviation = section.departmentAbbreviation,
+            courseNumber = section.courseNumber, 
+            semester = section.semester,
+            sectionYear = section.sectionYear
         )
         print('Created a new enrollment instance!')
         violated_constraints = unique_general(new_enrollment)
@@ -295,7 +299,11 @@ def add_letter_grade(student, section):
         new_enrollment = LetterGrade(
             minSatisfactory = choose_grade(),
             student = student,
-            section = section
+            section = section,
+            departmentAbbreviation = section.departmentAbbreviation,
+            courseNumber = section.courseNumber,
+            semester = section.semester,
+            sectionYear = section.sectionYear
         )
         print('Created a new enrollment instance!')
         violated_constraints = unique_general(new_enrollment)
