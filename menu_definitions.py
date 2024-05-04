@@ -35,6 +35,9 @@ delete_select = Menu('delete select', 'Which type of object do you want to delet
     Option("Course", "delete_course_main()"),
     Option("Section", "delete_section_main()"),
     Option("Enrollment", "delete_enrollment_main()"),
+    Option("Major", "delete_major_main()"),
+    Option("Student", "delete_student_main()"),
+    Option("Student Major", "delete_student_major_main()"),
     Option("Exit", "pass")
 ])
 

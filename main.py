@@ -459,9 +459,48 @@ def delete_department():
         if major_continue == 1:
             delete_major(major)
         else: return
-    # delete the department once it is emptied of its courses
-    department.delete()
+    department.delete() # delete the department once it is emptied of its courses
     print('-- Successfully deleted department --')
+
+def delete_major_main():
+    """
+    Acts as a bridge function to delete_major
+    """
+    major = select_major()
+    delete_major(major)
+
+def delete_major(major):
+    """
+    Delete an existing major from the database
+    """
+    student_majors = StudentMajor.objects(major = major)
+    for student in student_majors:
+        print('-- WARNING: The following Student Major is in this Major! --') 
+        print('-- Must delete all Student Majors in major before you can delete the major')
+        print(student)
+        print('Would you like to delete this Student Major ?\n1 - Yes\n0 - No')
+        student_continue = int(input('--> '))
+        if student_continue == 1:
+            delete_student_major(student)
+        else: return
+    department = Department.objects(majors = major)
+    department.update(pull__majors = major)
+    major.delete()
+    print("-- Successfully Deleted Major --")
+   
+def delete_student_major_main():
+    """
+    Acts as a bridge function to delete_student_major()
+    """
+    student_major = select_student_major()
+    delete_student_major(student_major)
+
+def delete_student_major(student_major):
+    """
+    Delete an existing sudent major from the database
+    """
+    student_major.delete() 
+    print("-- Successfully Deleted Student Major --")
 
 def delete_course_main():
     """
@@ -490,8 +529,10 @@ def delete_course(course):
             delete_section(section)
             print('-- Successfully deleted section --')
         else: return
-    # delete the course once it is emptied of its courses
-    course.delete()
+    department = Department.objects(courses = course)
+    department.update(pull__courses = course) # delete this course from the Departent.courses list
+    course.delete() # delete the course once it is emptied of its courses
+    print("-- Successfully Deleted Course --")
 
 def delete_section_main():
     """
@@ -518,6 +559,42 @@ def delete_section(section):
     course = Course.objects(sections = section)
     course.update(pull__sections=section.id) # delete this section from the Course.sections list
     section.delete() # delete section once all the enrollments have been deleted
+    print("-- Successfully Deleted Section --")
+
+def delete_student_main():
+    """
+    Bridge function for delete_student()
+    """
+    student = select_student()
+    delete_student(student)
+
+def delete_student(student):
+    """
+    Delete an existing student from the database
+    """
+    enrollments = Enrollment.objects(student = student)
+    for enrollment in enrollments:
+        print('-- WARNING: The following enrollment is in this section! --') 
+        print('-- Must delete all enrollments in section before you can delete the course')
+        print(enrollment)
+        print('Would you like to delete the enrollment ?\n1 - Yes\n0 - No')
+        enrollment_continue = int(input('--> '))
+        if enrollment_continue == 1:
+            delete_enrollment(enrollment)
+        else: return
+    student_majors = StudentMajor.objects(student = student)
+    for student_major in student_majors:
+        print('-- WARNING: The following enrollment is in this section! --') 
+        print('-- Must delete all enrollments in section before you can delete the course')
+        print(student_major)
+        print('Would you like to delete the Student Major ?\n1 - Yes\n0 - No')
+        student_major_continue = int(input('--> '))
+        if student_major_continue == 1:
+            delete_student_major(student_major)
+        else: return
+    student.delete() # delete student once all the enrollments have been deleted
+    print("-- Successfully Deleted Section --")
+    
 
 def delete_enrollment_main():
     """
@@ -531,7 +608,7 @@ def delete_enrollment(enrollment):
     Deletes an existing enrollment from the database
     """
     enrollment.delete()
-    print('Enrollment successfully deleted!')
+    print("-- Successfully Deleted Enrollment --")
 
 if __name__ == '__main__':
     print('Starting in main.')
