@@ -5,7 +5,7 @@ from pymongo import monitoring
 from mongoengine import *
 from Menu import Menu
 from Option import Option
-from menu_definitions import menu_main, add_select, list_select, select_select, delete_select, update_select
+from menu_definitions import menu_main, add_select, list_select, delete_select
 from Department import Department
 from Course import Course
 from Section import Section
@@ -32,14 +32,8 @@ def add():
 def list_members():
     menu_loop(list_select)
 
-def select():
-    menu_loop(select_select)
-
 def delete():
     menu_loop(delete_select)
-
-def update():
-    menu_loop(update_select)
 
 def select_department() -> Department:
     return select_general(Department)
@@ -461,7 +455,7 @@ def delete_department():
         """
         print('-- WARNING: The following major is in the department! --')
         print('-- Must delete all major in a department before you can delete the department')
-        print(course)
+        print(major)
         print('Would you like to delete this major ?\n1 - Yes\n0 - No')
         major_continue = int(input('--> '))
         if major_continue == 1:
